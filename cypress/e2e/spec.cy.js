@@ -68,4 +68,71 @@ describe('TODOMvc App', () => {
       .children()
       .should('have.length', 2);
   });
+
+
+  it('Edita uma tarefa', () => {
+    cy.visit('');
+
+    cy.get('.new-todo')
+      .type('Tarefa a ser editada{enter}');
+
+    cy.get('.todo-list li')
+      .dblclick();
+
+    cy.get('.todo-list li .edit')
+      .clear()
+      .type('Tarefa editada{enter}');
+
+    cy.get('.todo-list li')
+      .first()
+      .should('have.text', 'Tarefa editada');
+  });
+
+  it('Marca todas as tarefas como completas', () => {
+    cy.visit('');
+
+    cy.get('[data-cy=todo-input]')
+      .type('Tarefa para teste 1{enter}')
+      .type('Tarefa para teste 2{enter}')
+      .type('Tarefa para teste 3{enter}')
+      .type('Tarefa para teste 4{enter}')
+
+
+    cy.get('.todo-list li')
+      .should('have.length', 4);
+
+    cy.get('.toggle-all-label')
+      .click();
+    
+    cy.get('.clear-completed')
+      .click();
+
+    cy.get('.todo-list li')
+      .should('have.length', 0);
+  });
+
+
+  it('Deleta todas as tarefas marcadas como completas', () => {
+    cy.visit('');
+
+    cy.get('.new-todo')
+    .type('Tarefa para teste 1{enter}')
+    .type('Tarefa para teste 2{enter}')
+    .type('Tarefa para teste 3{enter}')
+
+    cy.get('.todo-list li')
+      .should('have.length', 3);
+
+    cy.get('.toggle-all-label')
+      .click();
+
+    cy.get('.clear-completed')
+      .click();
+
+    cy.get('.todo-list li')
+      .should('have.length', 0);
+  });
+
 });
+  
+
